@@ -1,74 +1,42 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase App</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - My App</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-
-    <!-- Firebase SDKs -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-auth-compat.js"></script>
-
-    <style>
-        #userGreeting {
-            text-align: left;
-            margin-top: 30px;
-            margin-left: 20px;
-            color: black;
-        }
-    </style>
 </head>
 
-<body>
+<body class="bg-light">
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="bi bi-window-stack"></i> My App</a>
+            <a class="navbar-brand" href="#">My App</a>
         </div>
     </nav>
 
-    <!-- Greeting -->
-    <i>
-        <h2 id="userGreeting"></h2>
-    </i>
-
-    <!-- Form -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow mt-4">
-                    <div class="card-body">
-                        <h3 class="card-title text-center mb-4">Sign Up / Sign In</h3>
-                        <div class="mb-3">
-                            <input type="email" id="email" class="form-control" placeholder="Email">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" id="password" class="form-control" placeholder="Password">
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button onclick="signUp()" class="btn btn-success">Sign Up</button>
-                            <button onclick="signIn()" class="btn btn-danger">Sign In</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Auth Form -->
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+            <h3 class="text-center mb-4">Welcome</h3>
+            <input type="email" id="email" class="form-control mb-3" placeholder="Email" />
+            <input type="password" id="password" class="form-control mb-3" placeholder="Password" />
+            <button class="btn btn-success w-100 mb-2" onclick="signUp()">Sign Up</button>
+            <button class="btn btn-primary w-100 mb-2" onclick="signIn()">Sign In</button>
         </div>
     </div>
 
-    <!-- Firebase Auth Script -->
     <script>
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCrFVVuJMZWDku6zG4GkTmwyvo-hha5klY",
             authDomain: "my-app-19e63.firebaseapp.com",
@@ -79,52 +47,26 @@
             measurementId: "G-V8Q2CK1TWZ"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Show greeting as a heading
-        function showGreeting(user) {
-            const greeting = document.getElementById("userGreeting");
-            greeting.textContent = `Hello, ${user.email}`;
-        }
-
-        // Sign Up function
         function signUp() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
             auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    alert("Signed up successfully!");
-                    showGreeting(userCredential.user);
-                })
-                .catch(error => {
-                    alert("Error: " + error.message);
-                });
+                .then(() => window.location.href = "dashboard.html")
+                .catch(err => alert("Error: " + err.message));
         }
 
-        // Sign In function
         function signIn() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
             auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    alert("Signed in successfully!");
-                    showGreeting(userCredential.user);
-                })
-                .catch(error => {
-                    alert("Error: " + error.message);
-                });
+                .then(() => window.location.href = "dashboard.html")
+                .catch(err => alert("Error: " + err.message));
         }
-
-        // Optional: Show greeting if already signed in
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                showGreeting(user);
-            }
-        });
     </script>
 </body>
 
